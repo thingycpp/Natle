@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
 #include "libs/glew/include/GL/glew.h"
 
 namespace tl {
@@ -21,7 +20,7 @@ namespace tl {
 		inline unsigned int GetProgram() { return m_ProgramID; }
 
 
-		void Load(const std::string& vs_filepath, const std::string& fs_filepath);
+		bool Load(const std::string& vs_filepath, const std::string& fs_filepath);
 		void Use();
 		void Delete();
 

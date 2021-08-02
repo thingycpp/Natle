@@ -1,4 +1,4 @@
-#include "GUI.hpp"
+#include "GUI.h"
 using namespace tl;
 
 //Class Variables

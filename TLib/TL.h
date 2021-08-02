@@ -83,8 +83,8 @@ Example code:
 #include "libs/imgui/imgui_impl_glfw_gl3.h"
 #include "libs/stb_image/stb_image.h"
 
-#include "GUI.hpp"
-#include "tlShader.hpp"
+#include "GUI.h"
+#include "tlShader.h"
 
 
 struct ShaderDef {

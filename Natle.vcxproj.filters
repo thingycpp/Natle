@@ -71,13 +71,13 @@
     <ClInclude Include="TLib\libs\glfw\include\GLFW\glfw3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TLib\TL.hpp">
+    <ClInclude Include="TLib\tlShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TLib\GUI.hpp">
+    <ClInclude Include="TLib\TL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TLib\tlShader.hpp">
+    <ClInclude Include="TLib\GUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

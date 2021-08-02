@@ -1,4 +1,4 @@
-#include "tlShader.hpp"
+#include "tlShader.h"
 using namespace tl;
 
 unsigned int Shader::m_ProgramID = NULL;
@@ -9,7 +9,7 @@ unsigned int Shader::GetCompiledShader(unsigned int shaderType, const std::strin
 	m_ShaderID = glCreateShader(shaderType);
 	
 	const char* ccp_shaderSource = shaderSource.c_str();
-	glShaderSource(m_ShaderID, 1, &ccp_shaderSource, NULL);
+	glShaderSource(m_ShaderID, 1, &ccp_shaderSource, nullptr);
 	glCompileShader(m_ShaderID);
 
 	GLint no_err;
@@ -24,6 +24,7 @@ unsigned int Shader::GetCompiledShader(unsigned int shaderType, const std::strin
 		glGetShaderInfoLog(m_ShaderID, length, &length, strInfoLog);
 
 		std::cout << "Error in shader: " << strInfoLog << std::endl;
+		delete[] strInfoLog;
 
 	}
 
@@ -31,43 +32,16 @@ unsigned int Shader::GetCompiledShader(unsigned int shaderType, const std::strin
 
 }
 
-void Shader::Load(const std::string& vs_filepath, const std::string& fs_filepath) {
+bool Shader::Load(const std::string& vs_filepath, const std::string& fs_filepath) {
 
 	std::ifstream vs_file(vs_filepath);
-	std::string vsf;
-	std::string in_vs;
-	if (vs_file) {
-		
-		while (std::getline(vs_file, vsf)) {
-			
-			in_vs += vsf;
+	// Honestly I couldnt figure out reading from files so I used what I found worked in a tutorial
+	const std::string in_vs((std::istreambuf_iterator<char>(vs_file)), std::istreambuf_iterator<char>());
 
-		}
-
-	}
-	else {
-
-		std::cout << "Yup... ughm, so.... I could'nt get anything from that file..." << std::endl;
-
-	}
 
 	std::ifstream fs_file(fs_filepath);
-	std::string fsf;
-	std::string in_fs;
-	if (fs_file) {
+	const std::string in_fs((std::istreambuf_iterator<char>(fs_file)), std::istreambuf_iterator<char>());
 
-		while (std::getline(fs_file, fsf)) {
-
-			in_fs += fsf;
-
-		}
-
-	}
-	else {
-
-		std::cout << "Yup... ughm, so.... I could'nt get anything from that file either..." << std::endl;
-
-	}
 
 	m_ProgramID = glCreateProgram();
 
@@ -83,8 +57,7 @@ void Shader::Load(const std::string& vs_filepath, const std::string& fs_filepath
 	glDeleteShader(vs);
 	glDeleteShader(fs);
 
-	vs_file.close();
-	fs_file.close();
+	return true;
 
 }
 

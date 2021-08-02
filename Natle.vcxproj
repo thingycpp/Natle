@@ -151,7 +151,7 @@
     <ClCompile Include="TLib\tlShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TLib\GUI.hpp" />
+    <ClInclude Include="TLib\GUI.h" />
     <ClInclude Include="TLib\libs\glew\include\GL\glew.h" />
     <ClInclude Include="TLib\libs\glfw\include\GLFW\glfw3.h" />
     <ClInclude Include="TLib\libs\imgui\imconfig.h" />
@@ -161,9 +161,9 @@
     <ClInclude Include="TLib\libs\imgui\stb_rect_pack.h" />
     <ClInclude Include="TLib\libs\imgui\stb_textedit.h" />
     <ClInclude Include="TLib\libs\imgui\stb_truetype.h" />
-    <ClInclude Include="TLib\TL.hpp" />
+    <ClInclude Include="TLib\TL.h" />
     <ClInclude Include="TLib\libs\stb_image\stb_image.h" />
-    <ClInclude Include="TLib\tlShader.hpp" />
+    <ClInclude Include="TLib\tlShader.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Assets\Fonts\OpenSans-Regular.ttf" />
