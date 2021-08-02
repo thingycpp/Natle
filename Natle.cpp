@@ -22,6 +22,7 @@ int main(void)
 
     glfwMakeContextCurrent(win);
     GLCall(glewInit());
+    glfwSwapInterval(1);
     TLInitUI(win);
 
     TLBeginExampleShaders();

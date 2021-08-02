@@ -86,8 +86,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
-    <None Include="TLib\Shaders\fs.shader" />
-    <None Include="TLib\Shaders\vs.shader" />
+    <None Include="TLib\fs.shader" />
+    <None Include="TLib\vs.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Debug\Assets\lewall.jpg">

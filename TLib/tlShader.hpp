@@ -19,10 +19,9 @@ namespace tl {
 	public:
 
 		inline unsigned int GetProgram() { return m_ProgramID; }
-		inline unsigned int GetShader() { return m_ShaderID; }
 
 
-		bool Load(const std::string& vs_filepath, const std::string& fs_filepath);
+		void Load(const std::string& vs_filepath, const std::string& fs_filepath);
 		void Use();
 		void Delete();
 

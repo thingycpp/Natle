@@ -31,17 +31,43 @@ unsigned int Shader::GetCompiledShader(unsigned int shaderType, const std::strin
 
 }
 
-bool Shader::Load(const std::string& vs_filepath, const std::string& fs_filepath) {
+void Shader::Load(const std::string& vs_filepath, const std::string& fs_filepath) {
 
-	using namespace std;
+	std::ifstream vs_file(vs_filepath);
+	std::string vsf;
+	std::string in_vs;
+	if (vs_file) {
+		
+		while (std::getline(vs_file, vsf)) {
+			
+			in_vs += vsf;
 
-	ifstream vs_file(vs_filepath);
-	string in_vs;
-	if (vs_file.is_open()) { while (getline(vs_file, in_vs)) { std::cout << in_vs << "\n" << std::endl; } vs_file.close(); }
+		}
 
-	ifstream fs_file(fs_filepath);
-	string in_fs;
-	if (fs_file.is_open()) { while (getline(fs_file, in_fs)) { std::cout << in_fs << "\n" << std::endl; } fs_file.close(); }
+	}
+	else {
+
+		std::cout << "Yup... ughm, so.... I could'nt get anything from that file..." << std::endl;
+
+	}
+
+	std::ifstream fs_file(fs_filepath);
+	std::string fsf;
+	std::string in_fs;
+	if (fs_file) {
+
+		while (std::getline(fs_file, fsf)) {
+
+			in_fs += fsf;
+
+		}
+
+	}
+	else {
+
+		std::cout << "Yup... ughm, so.... I could'nt get anything from that file either..." << std::endl;
+
+	}
 
 	m_ProgramID = glCreateProgram();
 
@@ -57,7 +83,8 @@ bool Shader::Load(const std::string& vs_filepath, const std::string& fs_filepath
 	glDeleteShader(vs);
 	glDeleteShader(fs);
 
-	return true;
+	vs_file.close();
+	fs_file.close();
 
 }
 

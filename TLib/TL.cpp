@@ -5,7 +5,7 @@ Shader shader;
 
 void ShaderDef::BeginExShaders()
 {
-	shader.Load("Shaders/vs.shader", "Shaders/fs.shader");
+	shader.Load("vs.txt", "fs.txt");
 }
 
 void ShaderDef::BeginShaders(const std::string& vs, const std::string& fs)
