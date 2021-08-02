@@ -1,29 +1,14 @@
-#include "Tlib/TL.h"
+#include "TLib/TL.h"
 
 Renderer* renderer;
 
+
 int main(void)
 {
-    /* Create a windowed mode window and its OpenGL context */
-    
-    GLFWwindow* win;
 
-    if (!glfwInit())
-        return -1;
+    TLCreateWindow(1280, 720, "Natle: Alpha 0.1 Windows Edition - TheRand()House", true);
 
-    win = glfwCreateWindow(1280, 720, "Natle: Alpha 0.1 Windows Edition - TheRand()House", nullptr, nullptr);
-    if (!win) {
-
-        glfwTerminate();
-        return -1;
-
-    }
-
-
-    glfwMakeContextCurrent(win);
-    GLCall(glewInit());
-    glfwSwapInterval(1);
-    TLInitUI(win);
+    TLInitUI();
 
     TLBeginExampleShaders();
 
@@ -33,17 +18,17 @@ int main(void)
     TLEndShaders();
 
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(win))
+    while (!TLWindowShouldClose())
     {
-        glfwPollEvents();
+        TLBegin();
 
         
-        renderer->Clear(win, true);
+        renderer->Clear(true);
         
         TLNatleGUI();
         TLRenderUI();
 
-        glfwSwapBuffers(win);
+        TLEnd();
     }
 
     TLTerminate(true);

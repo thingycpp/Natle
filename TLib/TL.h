@@ -5,18 +5,21 @@
     READ:
 
         Your while loop should look a little something like if using NatleGUI
+        
+        Note
 
-        while (!glfwWindowShouldClose(window))
+        while (!TLWindowShouldClose)
         {
-            glfwPollEvents();
+             TLBegin();
 
 
-            renderer->Clear(window, true);
+            renderer->Clear(true);
+            //Draw Under Here
 
             TLNatleGUI();
             TLRenderUI();
 
-            glfwSwapBuffers(window);
+            TLEnd();
         }
 
         Dont forget to use TLTerminate(true);
@@ -26,28 +29,16 @@
 
 Example code:
 
-    #include "Tlib/TL.h"
+    #include "TLib/TL.h"
 
     Renderer* renderer;
 
+
     int main(void)
     {
-        GLFWwindow* window;
 
+        TLCreateWindow(1280, 720, "TLib Example", true);
 
-        if (!glfwInit())
-            return -1;
-
-        window = glfwCreateWindow(1280, 720, "TLib Example Window", NULL, NULL);
-        if (!window)
-        {
-            glfwTerminate();
-            return -1;
-        }
-
-        glfwMakeContextCurrent(window);
-        GLCall(glewInit());
-    
 
         TLBeginExampleShaders();
 
@@ -56,18 +47,21 @@ Example code:
 
         TLEndShaders();
 
-        while (!glfwWindowShouldClose(window))
+
+        while (!TLWindowShouldClose())
         {
-            glfwPollEvents();
+
+            TLBegin();
 
 
-            renderer->Clear(window, false);
+            renderer->Clear(false);
 
 
-            glfwSwapBuffers(window);
+            TLEnd();
+
         }
 
-        TLEnd(false);
+        TLTerminate(false);
         return 0;
     }
 
@@ -92,6 +86,12 @@ struct ShaderDef {
     static void BeginShaders(const std::string& vs, const std::string& fs);
     static void EndShaders();
 };
+
+struct tlwinstuff {
+    static GLFWwindow* win;
+    static void CreateWindow(int Width, int Height, const std::string& Name, bool useVsync);
+};
+
 
 
 inline void TLDark() {
@@ -178,7 +178,7 @@ inline bool GLLogCall(const char* function, const char* file, int line) {
 #define TLDarkTheme()      TLDark();
 #define TLLightTheme()     TLLight();
 #define TLNatleGUI()       tl::NatleGUI::UI();
-#define TLInitUI(p_window) tl::NatleGUI::initUI(p_window);
+#define TLInitUI()         tl::NatleGUI::initUI(tlwinstuff::win);
 #define TLRenderUI()       ImGui::Render(); ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 #define TLCleanupUI()      ImGui::DestroyContext(); ImGui_ImplGlfwGL3_Shutdown();
 
@@ -188,12 +188,26 @@ inline bool GLLogCall(const char* function, const char* file, int line) {
 #define TLBeginShaders(vs, fs)  ShaderDef::BeginShaders(vs, fs);
 #define TLEndShaders()          ShaderDef::EndShaders();
 
+// Window Macros
+
+#define TLCreateWindow(w, h, n, vs) tlwinstuff::CreateWindow(w, h, n, vs);
+
+inline int TLWindowShouldClose() {
+    
+    //Not a macro but screw it
+    return glfwWindowShouldClose(tlwinstuff::win);
+
+}
+
 // General Macros
+
+#define TLBegin() glfwPollEvents();
+#define TLEnd()   glfwSwapBuffers(tlwinstuff::win);
 
 #define TLTerminate(usingUI) if(usingUI){ TLCleanupUI(); } glfwTerminate();
 
 struct Renderer {      
-   void Clear(GLFWwindow* p_window, bool usingUI) const;
+   void Clear(bool usingUI) const;
    void Draw(unsigned int p_amount) const;
 };
 

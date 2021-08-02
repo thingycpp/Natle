@@ -1,6 +1,30 @@
 #include "TL.h"
 using namespace tl;
 
+GLFWwindow* tlwinstuff::win = NULL;
+
+void tlwinstuff::CreateWindow(int Width, int Height, const std::string& Name, bool useVsync) {
+
+	if (!glfwInit())
+		return;
+
+	win = glfwCreateWindow(Width, Height, Name.c_str(), nullptr, nullptr);
+	if (!win) {
+
+		glfwTerminate();
+		return;
+
+	}
+
+
+	glfwMakeContextCurrent(win);
+	glewInit();
+	if (useVsync)
+		glfwSwapInterval(1);
+
+}
+
+
 Shader shader;
 
 void ShaderDef::BeginExShaders()
@@ -18,10 +42,10 @@ void ShaderDef::EndShaders()
 	shader.Use();
 }
 
-void Renderer::Clear(GLFWwindow* p_window, bool usingUI) const {
+void Renderer::Clear(bool usingUI) const {
 
 	int display_w, display_h;
-	GLCall(glfwGetFramebufferSize(p_window, &display_w, &display_h));
+	GLCall(glfwGetFramebufferSize(tlwinstuff::win, &display_w, &display_h));
 	GLCall(glViewport(0, 0, display_w, display_h))
 
 	if (usingUI) {
