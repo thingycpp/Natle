@@ -76,6 +76,7 @@ Example code:
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "libs/glew/include/GL/glew.h"
 #include "libs/glfw/include/GLFW/glfw3.h"
 #include "libs/imgui/imgui.h"

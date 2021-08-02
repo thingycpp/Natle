@@ -33,13 +33,15 @@ unsigned int Shader::GetCompiledShader(unsigned int shaderType, const std::strin
 
 bool Shader::Load(const std::string& vs_filepath, const std::string& fs_filepath) {
 
-	std::ifstream vs_file(vs_filepath);
-	std::string in_vs;
-	vs_file >> in_vs;
+	using namespace std;
 
-	std::ifstream fs_file(fs_filepath);
-	std::string in_fs;
-	fs_file >> in_fs;
+	ifstream vs_file(vs_filepath);
+	string in_vs;
+	if (vs_file.is_open()) { while (getline(vs_file, in_vs)) { std::cout << in_vs << "\n" << std::endl; } vs_file.close(); }
+
+	ifstream fs_file(fs_filepath);
+	string in_fs;
+	if (fs_file.is_open()) { while (getline(fs_file, in_fs)) { std::cout << in_fs << "\n" << std::endl; } fs_file.close(); }
 
 	m_ProgramID = glCreateProgram();
 
