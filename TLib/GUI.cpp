@@ -21,6 +21,7 @@ void NatleGUI::initUI(GLFWwindow* p_window) {
 
     ImGuiStyle& style = ImGui::GetStyle();
     style.WindowRounding = 0.0f;
+    style.Alpha = 1.0;
     style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 
     TLDarkTheme();
@@ -41,7 +42,7 @@ void NatleGUI::UI() {
                 if (showEntSettings)
                     if (ImGui::MenuItem("Entity Settings", "Ctrl+I")) { showEntSettings = false; }
                 if (showDesc)
-                    if (ImGui::MenuItem("Why Natle", "Ctrl+O")) { showDesc = false; }
+                    if (ImGui::MenuItem("What is Natle?", "Ctrl+O")) { showDesc = false; }
 
                 ImGui::EndMenu();
             }
@@ -88,7 +89,7 @@ void NatleGUI::UI() {
         }
 
         if (showDesc) {
-            ImGui::Begin("Why Natle", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
+            ImGui::Begin("What is Natle?", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
             ImGui::SetWindowPos(ImVec2(360, 360), true);
             ImGui::SetWindowSize(ImVec2(560, 360), true);
 
