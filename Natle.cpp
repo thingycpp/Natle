@@ -1,7 +1,10 @@
 #include "TLib/TL.h"
 
 Renderer* renderer;
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
 int main(void)
 {
@@ -10,10 +13,11 @@ int main(void)
 
     TLInitUI();
 
+    TLKeyInput();
+
     TLBeginExampleShaders();
 
-    GLCall(glEnable(GL_BLEND));
-    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
 
     TLEndShaders();
 
@@ -24,6 +28,7 @@ int main(void)
 
         
         renderer->Clear(true);
+        //renderer->Draw(1);
         
         TLNatleGUI();
         TLRenderUI();

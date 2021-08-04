@@ -1,11 +1,11 @@
-#version 330 core
-layout(location = 0) in vec2 aPos;
-layout(location = 1) in vec2 aTexCoord;
+#version 400
 
-out vec2 TexCoord;
+in vec4 position;
+uniform mat4 M;
+uniform Mat4 V;
+uniform mat4 P;
 
 void main()
 {
-    gl_Position = vec4(aPos, 0.0, 1.0);
-    TexCoord = aTexCoord;
+   gl_Position = P*V*M*position;
 }

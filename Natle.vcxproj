@@ -141,17 +141,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="TLib\Camera.cpp" />
     <ClCompile Include="TLib\GUI.cpp" />
+    <ClCompile Include="TLib\Keyboard.cpp" />
     <ClCompile Include="TLib\libs\imgui\imgui.cpp" />
     <ClCompile Include="TLib\libs\imgui\imgui_demo.cpp" />
     <ClCompile Include="TLib\libs\imgui\imgui_draw.cpp" />
     <ClCompile Include="TLib\libs\imgui\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="Natle.cpp" />
+    <ClCompile Include="TLib\ShaderUtil.cpp" />
     <ClCompile Include="TLib\TL.cpp" />
-    <ClCompile Include="TLib\tlShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="TLib\Camera.h" />
     <ClInclude Include="TLib\GUI.h" />
+    <ClInclude Include="TLib\Keyboard.h" />
     <ClInclude Include="TLib\libs\glew\include\GL\glew.h" />
     <ClInclude Include="TLib\libs\glfw\include\GLFW\glfw3.h" />
     <ClInclude Include="TLib\libs\imgui\imconfig.h" />
@@ -161,9 +165,9 @@
     <ClInclude Include="TLib\libs\imgui\stb_rect_pack.h" />
     <ClInclude Include="TLib\libs\imgui\stb_textedit.h" />
     <ClInclude Include="TLib\libs\imgui\stb_truetype.h" />
+    <ClInclude Include="TLib\ShaderUtil.h" />
     <ClInclude Include="TLib\TL.h" />
     <ClInclude Include="TLib\libs\stb_image\stb_image.h" />
-    <ClInclude Include="TLib\tlShader.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Assets\Fonts\OpenSans-Regular.ttf" />

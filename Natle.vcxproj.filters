@@ -36,7 +36,13 @@
     <ClCompile Include="TLib\TL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TLib\tlShader.cpp">
+    <ClCompile Include="TLib\ShaderUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TLib\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TLib\Keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,13 +77,19 @@
     <ClInclude Include="TLib\libs\glfw\include\GLFW\glfw3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TLib\tlShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TLib\TL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TLib\GUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TLib\ShaderUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TLib\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TLib\Keyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
