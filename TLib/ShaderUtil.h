@@ -1,5 +1,9 @@
 #pragma once
 
+#include "libs/glew/include/GL/glew.h"
+#include "libs/glfw/include/GLFW/glfw3.h"
+#include "libs/glm/glm/glm.hpp"
+#include "libs/glm/glm/gtc/type_ptr.hpp"
 #include <string>
 
 // Utitlity class to load, compile and attach a vertex- and fragment shader to a program
@@ -24,7 +28,7 @@ public:
 	// Delete the program
 	void Delete();
 
-
+	void SetMat4(const std::string& name, glm::mat4 val);
 
 };
 

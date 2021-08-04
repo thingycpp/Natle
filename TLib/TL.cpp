@@ -26,6 +26,8 @@ void tlwinstuff::CreateWindow(int Width, int Height, const std::string& Name, bo
 	if (useVsync)
 		glfwSwapInterval(1);
 
+	glViewport(0, 0, Width, Height);
+
 }
 
 ShaderUtil shaderUtil;
@@ -33,11 +35,37 @@ ShaderUtil shaderUtil;
 void ShaderDef::BeginExShaders()
 {
 	shaderUtil.Load("vs.shader", "fs.shader");
+
+	GLCall(glEnable(GL_DEPTH_TEST));
+
+	GLCall(glEnable(GL_BLEND));
+	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+}
+
+void ShaderDef::MVPmatrices(Camera camera) {
+
+	glm::mat4 model = glm::mat4(1.0f);
+	glm::mat4 view = glm::mat4(1.0f);
+	glm::mat4 projection = glm::mat4(1.0f);
+	model = glm::rotate(model, (float)glfwGetTime() * glm::radians(-55.0f), glm::vec3(0.5f, 0.5f, 0.5f));
+
+	view = camera.GetViewMatrix();
+	projection = glm::perspective(glm::radians(45.0f), (float)1280 / (float)720, 0.1f, 100.0f);
+
+	shaderUtil.SetMat4("mM", model);
+	shaderUtil.SetMat4("mV", view);
+	shaderUtil.SetMat4("mP", projection);
+
 }
 
 void ShaderDef::BeginShaders(const std::string& vs, const std::string& fs)
 {
-	shaderUtil .Load(vs, fs);
+	shaderUtil.Load(vs, fs);
+
+	GLCall(glEnable(GL_DEPTH_TEST));
+
+	GLCall(glEnable(GL_BLEND));
+	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 }
 
 void ShaderDef::EndShaders()
@@ -45,27 +73,6 @@ void ShaderDef::EndShaders()
 	shaderUtil.Use();
 }
 
-
-GLuint vbo;
-
-void Renderer::DrawTri(glm::fvec2 v_1, glm::fvec2 v_2, glm::fvec2 v_3, int index) {
-
-	float verticies[6] = {
-		v_1.x, v_1.y,
-		v_2.x, v_2.y,
-		v_3.x, v_3.y
-	};
-
-	
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verticies), verticies, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(index);
-
-}
 
 void Renderer::Clear(bool usingUI) const {
 

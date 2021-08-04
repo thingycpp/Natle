@@ -1,6 +1,5 @@
 #include "ShaderUtil.h"
 
-#include <GL/glew.h>
 #include <iostream>
 #include <fstream>
 
@@ -64,5 +63,10 @@ void ShaderUtil::Use()
 void ShaderUtil::Delete()
 {
 	glDeleteProgram(mProgramId);
+}
+
+void ShaderUtil::SetMat4(const std::string& name, glm::mat4 val)
+{
+	glUniformMatrix4fv(glGetUniformLocation(mProgramId, name.c_str()), 1, GL_FALSE, glm::value_ptr(val));
 }
 

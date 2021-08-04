@@ -25,6 +25,8 @@
         Dont forget to use TLTerminate(true);
 */
 
+// ALSO DO NOT USE THE CAMERA STUFF WITH THE GUI, IT SCREWS EVERYTHING UP
+
 /*
 
 Example code:
@@ -67,6 +69,82 @@ Example code:
 
 */
 
+/*
+Example code with camera:
+
+#include "TLib/TL.h"
+
+void keyInput(double dtime);
+
+bool useUI = false;
+
+Renderer* renderer;
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
+int main(void)
+{
+
+    TLCreateWindow(1280, 720, "Natle: Alpha 0.1 Windows Edition - TheRand()House", true);
+
+    TLInitUI();
+
+    TLBeginExampleShaders();
+
+    TLEndShaders();
+
+    while (!TLWindowShouldClose())
+    {
+        double currentTime = glfwGetTime();
+        deltaTime = currentTime - lastFrame;
+        lastFrame = currentTime;
+
+        TLBegin();
+
+        TLCameraCallbacks();
+
+        keyInput(deltaTime);
+
+        renderer->Clear(true);
+
+        TLModelViewProjectionMatrix(camera);
+
+        TLEnd();
+    }
+
+    TLTerminate(true);
+    return 0;
+}
+
+void keyInput(double dtime) {
+
+    if (Keyboard::key(GLFW_KEY_ESCAPE)) {
+        TLSetWindowShouldClose(true);
+    }
+
+    if (Keyboard::key(GLFW_KEY_W)) {
+        camera.UpdateCameraPosition(CameraDir::FORWARD, dtime);
+    }
+    if (Keyboard::key(GLFW_KEY_A)) {
+        camera.UpdateCameraPosition(CameraDir::LEFT, dtime);
+    }
+    if (Keyboard::key(GLFW_KEY_S)) {
+        camera.UpdateCameraPosition(CameraDir::BACKWARD, dtime);
+    }
+    if (Keyboard::key(GLFW_KEY_D)) {
+        camera.UpdateCameraPosition(CameraDir::RIGHT, dtime);
+    }
+    if (Keyboard::key(GLFW_KEY_SPACE)) {
+        camera.UpdateCameraPosition(CameraDir::UP, dtime);
+    }
+    if (Keyboard::key(GLFW_KEY_C)) {
+        camera.UpdateCameraPosition(CameraDir::DOWN, dtime);
+    }
+
+}
+*/
 
 #include <iostream>
 #include <fstream>
@@ -74,6 +152,7 @@ Example code:
 #include "libs/stb_image/stb_image.h"
 
 #include "GUI.h"
+#include "Mouse.h"
 #include "Camera.h"
 #include "Keyboard.h"
 #include "ShaderUtil.h"
@@ -81,6 +160,7 @@ Example code:
 
 struct ShaderDef {
     static void BeginExShaders();
+    static void MVPmatrices(Camera camera);
     static void BeginShaders(const std::string& vs, const std::string& fs);
     static void EndShaders();
 };
@@ -140,6 +220,12 @@ inline bool GLLogCall(const char* function, const char* file, int line) {
 
 #define TLCreateWindow(w, h, n, vs) tlwinstuff::CreateWindow(w, h, n, vs);
 
+inline void TLSetWindowShouldClose(bool sosnt) {
+
+    glfwSetWindowShouldClose(tlwinstuff::win, sosnt);
+
+}
+
 inline int TLWindowShouldClose() {
     
     //Not a macro but screw it
@@ -149,7 +235,23 @@ inline int TLWindowShouldClose() {
 
 // Callback Macros
 
-#define TLKeyInput() glfwSetKeyCallback(tlwinstuff::win, Keyboard::key_callback);
+inline void CamCallbacks() {
+
+    glfwSetKeyCallback(tlwinstuff::win, Keyboard::keyCallback);
+
+    glfwSetCursorPosCallback(tlwinstuff::win, Mouse::CursorPosCB);
+
+    glfwSetMouseButtonCallback(tlwinstuff::win, Mouse::MouseButtonCB);
+
+    glfwSetScrollCallback(tlwinstuff::win, Mouse::MouseWheelCB);
+
+    // Extra bit placed here to make my life easier
+
+    glfwSetInputMode(tlwinstuff::win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+}
+
+#define TLCameraCallbacks() CamCallbacks();
 
 // General Macros
 
@@ -158,15 +260,13 @@ inline int TLWindowShouldClose() {
 
 #define TLTerminate(usingUI) if(usingUI){ TLCleanupUI(); } glfwTerminate();
 
+// Stuff Macros
+
+#define TLModelViewProjectionMatrix(camera) ShaderDef::MVPmatrices(camera);
+
 
 class Renderer {
-private:
-
-
 public:
-
-    // The index can't be an index you've already used before, also make sure this ends up right below TLBeginExampleShaders(), or TLBeginShaders(vs, fs)
-    void DrawTri(glm::fvec2 v_1, glm::fvec2 v_2, glm::fvec2 v_3, int index);
 
     void Clear(bool usingUI) const;
     void Draw(unsigned int amount) const;
