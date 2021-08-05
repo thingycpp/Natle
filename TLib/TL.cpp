@@ -52,9 +52,9 @@ void ShaderDef::MVPmatrices(Camera camera) {
 	view = camera.GetViewMatrix();
 	projection = glm::perspective(glm::radians(45.0f), (float)1280 / (float)720, 0.1f, 100.0f);
 
-	shaderUtil.SetMat4("mM", model);
-	shaderUtil.SetMat4("mV", view);
-	shaderUtil.SetMat4("mP", projection);
+	shaderUtil.SetMat4("model", model);
+	shaderUtil.SetMat4("view", view);
+	shaderUtil.SetMat4("projection", projection);
 
 }
 
@@ -81,11 +81,5 @@ void Renderer::Clear(bool usingUI) const {
 	}
 
 	GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-
-}
-
-void Renderer::Draw(unsigned int amount) const {
-
-	glDrawArrays(GL_TRIANGLES, 0, 6*amount);
 
 }

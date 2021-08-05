@@ -26,14 +26,13 @@ public:
 
 	float yaw;
 	float pitch;
+
 	float camSpeed;
-	float camZoom;
 
 	Camera(glm::vec3 p_camPos);
 
-	void UpdateCameraDirection(float dx, float dy);
+	void UpdateCameraDirection(double dx, double dy);
 	void UpdateCameraPosition(CameraDir dir, double dtime);
-	void UpdateCameraZoom(float dy);
 
 	glm::mat4 GetViewMatrix();
 

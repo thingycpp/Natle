@@ -6,7 +6,7 @@ Renderer* renderer;
 int main(void)
 {
 
-    TLCreateWindow(1280, 720, "TLib Example", true);
+    TLCreateWindow(1280, 720, "Natle: Alpha 0.1 Windows Edition - TheRand()House", true);
 
     TLInitUI();
 

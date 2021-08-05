@@ -87,9 +87,7 @@ float lastFrame = 0.0f;
 int main(void)
 {
 
-    TLCreateWindow(1280, 720, "Natle: Alpha 0.1 Windows Edition - TheRand()House", true);
-
-    TLInitUI();
+    TLCreateWindow(1280, 720, "TLib: Camera Example", true);
 
     TLBeginExampleShaders();
 
@@ -107,14 +105,16 @@ int main(void)
 
         keyInput(deltaTime);
 
-        renderer->Clear(true);
+        renderer->Clear(false);
+
+        // Draw whatever you want here in opengl context!
 
         TLModelViewProjectionMatrix(camera);
 
         TLEnd();
     }
 
-    TLTerminate(true);
+    TLTerminate(false);
     return 0;
 }
 
@@ -269,7 +269,6 @@ class Renderer {
 public:
 
     void Clear(bool usingUI) const;
-    void Draw(unsigned int amount) const;
 
 private:
 

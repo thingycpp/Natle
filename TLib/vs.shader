@@ -1,12 +1,11 @@
-#version 400
+#version 330 core
 
-in vec4 position;
+in vec3 aPos;
 
-uniform mat4 mM;
-uniform mat4 mV;
-uniform mat4 mP;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
-void main()
-{
-   gl_Position = mP*mV*mMposition;
+void main() {
+	gl_Position = projection * view * model * aPos;
 }
