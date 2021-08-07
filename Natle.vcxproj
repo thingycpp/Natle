@@ -155,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TLib\Camera.h" />
+    <ClInclude Include="TLib\Geometry.h" />
     <ClInclude Include="TLib\GUI.h" />
     <ClInclude Include="TLib\Keyboard.h" />
     <ClInclude Include="TLib\libs\glew\include\GL\glew.h" />

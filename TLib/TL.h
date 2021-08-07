@@ -184,8 +184,6 @@ inline void end() {
 
 }
 
-
-
 #define ASSERT(x) if (!(x)) __debugbreak();
 // GLCall because staying consistent with how I learned opengl
 #define GLCall(x) GLClearError();\
