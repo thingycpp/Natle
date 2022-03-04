@@ -8,19 +8,16 @@ Camera camera(glm::vec3(0.0f, 0.0f, -3.0f));
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
-
 bool playing = false;
 
 int main()
 {
     
-	TLCreateWindow(1280, 720, "TLib: Example Cube", true);
+	TLCreateWindow(1280, 720, "Natle", false);
     
 	TLBeginExampleShaders();
     
     float vertices[] = {
-
-        // Cube 1
 
         -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -63,6 +60,7 @@ int main()
         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
         -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
         -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+
     };
     
     unsigned int VBO, VAO;
