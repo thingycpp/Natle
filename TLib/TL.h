@@ -5,10 +5,9 @@
     READ:
 
         Your while loop should look a little something like if using NatleGUI
-        
-        Note
 
-        while (!TLWindowShouldClose)
+        TLInitUI();
+        while (!TLWindowShouldClose())
         {
              TLBegin();
 
@@ -79,69 +78,73 @@ void keyInput(double dtime);
 bool useUI = false;
 
 Renderer* renderer;
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-int main(void)
+int main()
 {
 
-    TLCreateWindow(1280, 720, "TLib: Camera Example", true);
+	TLCreateWindow(1280, 720, "TLib: Camera Example", true);
 
-    TLBeginExampleShaders();
+	TLBeginExampleShaders();
 
-    TLEndShaders();
+	GLuint VAO;
+	GLuint VBO;
 
-    while (!TLWindowShouldClose())
-    {
-        double currentTime = glfwGetTime();
-        deltaTime = currentTime - lastFrame;
-        lastFrame = currentTime;
+	static float tri[] = {
+		-1.0f, -1.0f, 5.0f,
+		1.0f, -1.0f, 5.0f,
+		0.0f,  1.0f, 5.0f
+	};
 
-        TLBegin();
+	//TLMakeObj3D(tri, 50.0f);
+	camera.Settings(1280, 720, ShaderDef::getShaders());
 
-        TLCameraCallbacks();
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
 
-        keyInput(deltaTime);
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), tri, GL_STATIC_DRAW);
 
-        renderer->Clear(false);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-        // Draw whatever you want here in opengl context!
+	TLEndShaders();
 
-        TLModelViewProjectionMatrix(camera);
+	while (!TLWindowShouldClose())
+	{
+		double currentTime = glfwGetTime();
+		deltaTime = currentTime - lastFrame;
+		lastFrame = currentTime;
 
-        TLEnd();
-    }
+		TLBegin();
 
-    TLTerminate(false);
-    return 0;
+		TLCameraCallbacks(camera);
+
+		keyInput(deltaTime);
+
+		renderer->Clear(false);
+		camera.Update(glm::vec3(0.0f, 0.0f, 0.0f));
+
+	   // Draw whatever you want here in opengl context!
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		TLEnd();
+	}
+
+	TLDeleteShaders();
+	TLTerminate(false);
+	return 0;
 }
 
 void keyInput(double dtime) {
 
-    if (Keyboard::key(GLFW_KEY_ESCAPE)) {
-        TLSetWindowShouldClose(true);
-    }
-
-    if (Keyboard::key(GLFW_KEY_W)) {
-        camera.UpdateCameraPosition(CameraDir::FORWARD, dtime);
-    }
-    if (Keyboard::key(GLFW_KEY_A)) {
-        camera.UpdateCameraPosition(CameraDir::LEFT, dtime);
-    }
-    if (Keyboard::key(GLFW_KEY_S)) {
-        camera.UpdateCameraPosition(CameraDir::BACKWARD, dtime);
-    }
-    if (Keyboard::key(GLFW_KEY_D)) {
-        camera.UpdateCameraPosition(CameraDir::RIGHT, dtime);
-    }
-    if (Keyboard::key(GLFW_KEY_SPACE)) {
-        camera.UpdateCameraPosition(CameraDir::UP, dtime);
-    }
-    if (Keyboard::key(GLFW_KEY_C)) {
-        camera.UpdateCameraPosition(CameraDir::DOWN, dtime);
-    }
+	if (Keyboard::key(GLFW_KEY_ESCAPE)) {
+		TLSetWindowShouldClose(true);
+	}
 
 }
 */
@@ -149,18 +152,17 @@ void keyInput(double dtime) {
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "libs/stb_image/stb_image.h"
 
 #include "GUI.h"
 #include "Mouse.h"
 #include "Camera.h"
+#include "Shaders.h"
 #include "Keyboard.h"
-#include "ShaderUtil.h"
 
 
 struct ShaderDef {
+    static Shaders getShaders();
     static void BeginExShaders();
-    static void MVPmatrices(Camera camera);
     static void BeginShaders(const std::string& vs, const std::string& fs);
     static void EndShaders();
 };
@@ -174,7 +176,14 @@ struct tlwinstuff {
 
 inline void begin() {
 
+    glViewport(0, 0, tlwinstuff::width, tlwinstuff::height);
+	glfwSetKeyCallback(tlwinstuff::win, Keyboard::keyCallback);
+	glfwSetCursorPosCallback(tlwinstuff::win, Mouse::CursorPosCB);
+	glfwSetMouseButtonCallback(tlwinstuff::win, Mouse::MouseButtonCB);
+	glfwSetScrollCallback(tlwinstuff::win, Mouse::MouseWheelCB);
+    glfwSetInputMode(tlwinstuff::win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwPollEvents();
+    glLoadIdentity();
 
 }
 
@@ -184,35 +193,13 @@ inline void end() {
 
 }
 
-#define ASSERT(x) if (!(x)) __debugbreak();
-// GLCall because staying consistent with how I learned opengl
-#define GLCall(x) GLClearError();\
-    x;\
-    ASSERT(GLLogCall(#x, __FILE__, __LINE__))
-
-inline void GLClearError() {
-
-    while (glGetError() != GL_NO_ERROR);
-
-}
-
-inline bool GLLogCall(const char* function, const char* file, int line) {
-
-    while (GLenum error = glGetError()) {
-
-        std::cout << "[OpenGL Error] (" << error << "): " << function << " " << file << ":" << line << std::endl;
-        return false;
-
-    }
-    return true;
-
-}
-
 // Shader Macros
 
 #define TLBeginExampleShaders() ShaderDef::BeginExShaders();
 #define TLBeginShaders(vs, fs)  ShaderDef::BeginShaders(vs, fs);
 #define TLEndShaders()          ShaderDef::EndShaders();
+#define TLDeleteShaders()       ShaderDef::getShaders().Delete();
+
 
 // Window Macros
 
@@ -231,26 +218,6 @@ inline int TLWindowShouldClose() {
 
 }
 
-// Callback Macros
-
-inline void CamCallbacks() {
-
-    glfwSetKeyCallback(tlwinstuff::win, Keyboard::keyCallback);
-
-    glfwSetCursorPosCallback(tlwinstuff::win, Mouse::CursorPosCB);
-
-    glfwSetMouseButtonCallback(tlwinstuff::win, Mouse::MouseButtonCB);
-
-    glfwSetScrollCallback(tlwinstuff::win, Mouse::MouseWheelCB);
-
-    // Extra bit placed here to make my life easier
-
-    glfwSetInputMode(tlwinstuff::win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-}
-
-#define TLCameraCallbacks() CamCallbacks();
-
 // General Macros
 
 #define TLBegin() begin();
@@ -258,15 +225,14 @@ inline void CamCallbacks() {
 
 #define TLTerminate(usingUI) if(usingUI){ TLCleanupUI(); } glfwTerminate();
 
-// Stuff Macros
-
-#define TLModelViewProjectionMatrix(camera) ShaderDef::MVPmatrices(camera);
-
+// Rendering Shinanigons
 
 class Renderer {
 public:
 
-    void Clear(bool usingUI) const;
+    void AddToDrawCall(float vertices[]);
+    void Clear(bool usingUI);
+    void Render();
 
 private:
 

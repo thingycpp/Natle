@@ -3,7 +3,18 @@
 
 #include "libs/glfw/include/GLFW/glfw3.h"
 
-class Mouse {
+struct Mouse {
+
+	static void CursorPosCB(GLFWwindow* window, double _x, double _y);
+	static void MouseButtonCB(GLFWwindow* window, int button, int action, int mods);
+	static void MouseWheelCB(GLFWwindow* window, double dx, double dy);
+
+	static double GetMouseX();
+	static double GetMouseY();
+
+	static double GetDX();
+	static double GetDY();
+
 private:
 	static double x;
 	static double y;
@@ -14,18 +25,10 @@ private:
 	static double dx;
 	static double dy;
 
-	static bool firstMouse;
+	static double scrollDX;
+	static double scrollDY;
 
-public:
-	static void CursorPosCB(GLFWwindow* window, double _x, double _y);
-	static void MouseButtonCB(GLFWwindow* window, int button, int action, int mods);
-	static void MouseWheelCB(GLFWwindow* window, double dx, double dy);
-
-	static double GetMouseX();
-	static double GetMouseY();
-
-	static double GetDX();
-	static double GetDY();
+	static bool first;
 
 };
 

@@ -1,89 +1,86 @@
 #include "Camera.h"
 
-#define M_PI 3.14159
+#include <iostream>
 
-Camera::Camera(glm::vec3 p_camPos)
-	: cameraPos(p_camPos), worldUp(glm::vec3(0.0f, 1.0f, 0.0f)), yaw(-90.0), 
-	pitch(0.0), camSpeed(2.5f), cameraFront(glm::vec3(0.0f, 0.0f, -1.0f))
+Camera::Camera(glm::vec3 position /*= glm::vec3(0.0f)*/)
+	: cameraPos(position),
+      cameraUp(glm::vec3(0.0f, 1.0f, 0.0f)),
+	  yaw(90.0f),
+	  pitch(0.0f),
+	  speed(2.5f),
+	  sensitivity(1.0f),
+	  fov(90.0f),
+	  cameraFront(glm::vec3(-1.0f, 0.0f, 0.0f))
 {
-	UpdateCameraVectors();
+    UpdateCameraVectors();
 }
 
-void Camera::UpdateCameraDirection(double dx, double dy)
-{
-	yaw += dx;
-	pitch += dy;
+Shaders SH;
 
-	if (pitch > 89.0f) {
-		pitch = 89.0f;
-	}
-	else if (pitch < -89.0f) {
-		pitch = -89.0f;
-	}
-
-	UpdateCameraVectors();
-}
-
-void Camera::UpdateCameraPosition(CameraDir dir, double dtime)
-{
-	float vel = (float)dtime * camSpeed;
-
-	switch (dir) {
-	case CameraDir::FORWARD:
-		cameraPos += cameraFront * vel;
-		break;
-	case CameraDir::BACKWARD:
-		cameraPos -= cameraFront * vel;
-		break;
-	case CameraDir::RIGHT:
-		cameraPos += cameraRight * vel;
-		break;
-	case CameraDir::LEFT:
-		cameraPos -= cameraRight * vel;
-		break;
-	case CameraDir::UP:
-		cameraPos += cameraUp * vel;
-		break;
-	case CameraDir::DOWN:
-		cameraPos -= cameraUp * vel;
-		break;
-	}
-}
-
-void setProjectionMatrix(const float& angleOfView, const float& near, const float& far, Matrix44f& M)
-{
-	float scale = 1 / tan(angleOfView * 0.5 * M_PI / 180);
-	M[0][0] = scale;
-	M[1][1] = scale;
-	M[2][2] = -far / (far - near);
-	M[3][2] = -far * near / (far - near);
-	M[2][3] = -1;
-	M[3][3] = 0;
-}
-
-
-void Camera::loadPerspective()
+void Camera::UpdateCameraMatrices(Shaders sh)
 {
 
-	
+    SH = sh;
+
+    glm::mat4 m = GetModelMatrix();
+    glm::mat4 v = GetViewMatrix();
+    glm::mat4 p = GetProjMatrix();
+
+    sh.setMat4("model", m);
+    sh.setMat4("view", v);
+    sh.setMat4("projection", p);
 
 }
 
-glm::mat4 Camera::GetViewMatrix()
-{
-	return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+void Camera::UpdateCameraDirection(double dx, double dy) {
+    yaw += dx * (sensitivity / 10.0f);
+    pitch += dy * (sensitivity / 10.0f);
+
+    if (pitch > (fov-2)) {
+        pitch = (fov-2);
+    }
+    if (pitch < -(fov-2)) {
+        pitch = -(fov-2);
+    }
+
+    UpdateCameraVectors();
 }
 
-void Camera::UpdateCameraVectors()
-{
-	glm::vec3 direction;
-	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	direction.y = sin(glm::radians(pitch));
-	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	cameraFront = glm::normalize(direction);
+void Camera::UpdateCameraPos(CameraDirection direction, double dt) {
+    float velocity = (float)dt * speed;
 
-	cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
-	cameraUp = glm::normalize(glm::cross(cameraRight, cameraFront));
+    switch (direction) {
+    case CameraDirection::FORWARD:
+        cameraPos += cameraFront * velocity;
+        break;
+    case CameraDirection::BACKWARD:
+        cameraPos -= cameraFront * velocity;
+        break;
+    case CameraDirection::RIGHT:
+        cameraPos += cameraRight * velocity;
+        break;
+    case CameraDirection::LEFT:
+        cameraPos -= cameraRight * velocity;
+        break;
+    case CameraDirection::UP:
+        cameraPos += cameraUp * velocity;
+        break;
+    case CameraDirection::DOWN:
+        cameraPos -= cameraUp * velocity;
+        break;
+    }
 
+    //std::cout << "X: " <<  cameraPos.x << " Y: " << cameraPos.y << " Z: " << cameraPos.z << std::endl;
+
+    UpdateCameraMatrices(SH);
 }
 
+void Camera::UpdateCameraVectors() {
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    direction.y = sin(glm::radians(pitch));
+    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    cameraFront = glm::normalize(direction);
+
+    cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
+}

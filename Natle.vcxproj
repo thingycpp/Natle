@@ -34,20 +34,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -72,9 +68,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -82,13 +82,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\C++LIBRARYS\glew-2.1.0\include;C:\C++LIBRARYS\glfw-3.3.4.bin.WIN32\include;C:\C++LIBRARYS\glfw-3.3.4.bin.WIN32\include;C:\C++LIBRARYS\glew-2.1.0\include;C:\Users\carli\source\repos\Natle\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)\TLib\libs\glfw\include;C:\Users\carli\source\repos\Natle\TLib\libs\glm\glm;$(SolutionDir)TLib\libs\glew\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\C++LIBRARYS\glfw-3.3.4.bin.WIN32\lib-vc2019;C:\C++LIBRARYS\glew-2.1.0\lib\Release\Win32;C:\C++LIBRARYS\glfw-3.3.4.bin.WIN32\lib-vc2019;C:\C++LIBRARYS\glew-2.1.0\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\carli\source\repos\Natle\TLib\libs\glew\lib\Release\Win32;C:\Users\carli\source\repos\Natle\TLib\libs\glfw\lib-vc2019</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glfw3dll.lib;opengl32.lib;ucrtd.lib;vcruntimed.lib;libvcruntimed.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -100,15 +100,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\C++LIBRARYS\glew-2.1.0\include;C:\C++LIBRARYS\glfw-3.3.4.bin.WIN32\include;</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)\TLib\libs\glfw\include;C:\Users\carli\source\repos\Natle\TLib\libs\glm\glm;$(SolutionDir)TLib\libs\glew\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\C++LIBRARYS\glfw-3.3.4.bin.WIN32\lib-vc2019;C:\C++LIBRARYS\glew-2.1.0\lib\Release\Win32;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\carli\source\repos\Natle\TLib\libs\glew\lib\Release\Win32;C:\Users\carli\source\repos\Natle\TLib\libs\glfw\lib-vc2019</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glfw3dll.lib;opengl32.lib;ucrtd.lib;vcruntimed.lib;libvcruntimed.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -118,10 +118,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\TLib\libs\glfw\include;C:\Users\carli\source\repos\Natle\TLib\libs\glm\glm;$(SolutionDir)TLib\libs\glew\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\carli\source\repos\Natle\TLib\libs\glew\lib\Release\Win32;C:\Users\carli\source\repos\Natle\TLib\libs\glfw\lib-vc2019</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,12 +135,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\TLib\libs\glfw\include;C:\Users\carli\source\repos\Natle\TLib\libs\glm\glm;$(SolutionDir)TLib\libs\glew\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\carli\source\repos\Natle\TLib\libs\glew\lib\Release\Win32;C:\Users\carli\source\repos\Natle\TLib\libs\glfw\lib-vc2019</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -149,13 +155,14 @@
     <ClCompile Include="TLib\libs\imgui\imgui_draw.cpp" />
     <ClCompile Include="TLib\libs\imgui\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="Natle.cpp" />
+    <ClCompile Include="TLib\libs\stb_image\stb_image.cpp" />
     <ClCompile Include="TLib\Mouse.cpp" />
-    <ClCompile Include="TLib\ShaderUtil.cpp" />
+    <ClCompile Include="TLib\Shaders.cpp" />
+    <ClCompile Include="TLib\Texture.cpp" />
     <ClCompile Include="TLib\TL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TLib\Camera.h" />
-    <ClInclude Include="TLib\Geometry.h" />
     <ClInclude Include="TLib\GUI.h" />
     <ClInclude Include="TLib\Keyboard.h" />
     <ClInclude Include="TLib\libs\glew\include\GL\glew.h" />
@@ -168,12 +175,14 @@
     <ClInclude Include="TLib\libs\imgui\stb_textedit.h" />
     <ClInclude Include="TLib\libs\imgui\stb_truetype.h" />
     <ClInclude Include="TLib\Mouse.h" />
-    <ClInclude Include="TLib\ShaderUtil.h" />
+    <ClInclude Include="TLib\Shaders.h" />
+    <ClInclude Include="TLib\Texture.h" />
     <ClInclude Include="TLib\TL.h" />
     <ClInclude Include="TLib\libs\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Assets\Fonts\OpenSans-Regular.ttf" />
+    <Font Include="TLib\Assets\Fonts\OpenSans-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
@@ -184,6 +193,7 @@
     <Image Include="Assets\lewall.png" />
     <Image Include="Debug\Assets\lewall.jpg" />
     <Image Include="Release\Assets\lewall.jpg" />
+    <Image Include="TLib\Assets\lewall.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,7 +16,7 @@ void Keyboard::keyCallback(GLFWwindow* window, int key, int scancode, int action
     keysChanged[key] = action != GLFW_REPEAT;
 }
 
-bool Keyboard::key(int key) {
+bool Keyboard::keyDown(int key) {
     return keys[key];
 }
 
@@ -27,7 +27,7 @@ bool Keyboard::keyChanged(int key) {
     return ret;
 }
 
-bool Keyboard::keyWentDown(int key) {
+bool Keyboard::keyPressed(int key) {
     return keys[key] && keyChanged(key);
 }
 

@@ -36,9 +36,6 @@
     <ClCompile Include="TLib\TL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TLib\ShaderUtil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TLib\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -46,6 +43,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TLib\Mouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TLib\Shaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TLib\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TLib\libs\stb_image\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,9 +92,6 @@
     <ClInclude Include="TLib\GUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TLib\ShaderUtil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TLib\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -98,12 +101,16 @@
     <ClInclude Include="TLib\Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TLib\Geometry.h">
+    <ClInclude Include="TLib\Shaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TLib\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Assets\Fonts\OpenSans-Regular.ttf" />
+    <Font Include="TLib\Assets\Fonts\OpenSans-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
@@ -118,6 +125,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Assets\lewall.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="TLib\Assets\lewall.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
