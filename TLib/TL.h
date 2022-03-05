@@ -94,7 +94,7 @@ struct tlwinstuff {
 
 inline void begin() {
 
-    glViewport(0, 0, tlwinstuff::width, tlwinstuff::height);
+  glViewport(0, 0, tlwinstuff::width, tlwinstuff::height);
 	glfwSetKeyCallback(tlwinstuff::win, Keyboard::keyCallback);
 	glfwSetCursorPosCallback(tlwinstuff::win, Mouse::CursorPosCB);
 	glfwSetMouseButtonCallback(tlwinstuff::win, Mouse::MouseButtonCB);
@@ -106,7 +106,7 @@ inline void begin() {
 }
 
 inline void end() {
-    
+
     glfwSwapBuffers(tlwinstuff::win);
 
 }
@@ -130,7 +130,7 @@ inline void TLSetWindowShouldClose(bool sosnt) {
 }
 
 inline int TLWindowShouldClose() {
-    
+
     //Not a macro but screw it
     return glfwWindowShouldClose(tlwinstuff::win);
 
@@ -159,3 +159,4 @@ private:
 };
 
 #endif
+
